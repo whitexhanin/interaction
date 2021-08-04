@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>drag_drop</title>
+</head>
+<style>
+
+    li {
+        border:1px solid blue;
+        background:#ffffff;
+        
+    }
+    ul {
+         border:1px solid red;   
+        }
+</style>
+<body>
+
+    <ul class="dropzone">
+        <li draggable='true'>
+            <span>1</span>
+        </li>    
+        <li draggable='true'>
+            <span>2</span>
+        </li>
+        <li draggable='true'>
+            <span>3</span>
+        </li>
+        <li draggable='true'>
+            <span>4</span>
+        </li>
+        <li draggable='true'>
+            <span>5</span>
+        </li>
+        <li draggable='true'>
+            <span>6</span>
+        </li>
+    </ul>    
+    <script>
+        let dragged;
+        let Ul = document.querySelector('ul');
+        let Li = document.querySelectorAll('li');  
+
+        for(let i = 0; i<Li.length; i++){    
+
+        Li[i].addEventListener("drag",function(e){
+            console.log('drag');            
+
+        },false);
+
+        Li[i].addEventListener("dragstart",function(e){
+            console.log('dragstart');
+
+            dragged = e.target;
+            event.target.style.opacity = .5;
+            e.dataTransfer.setData('text/plain',null);
+
+        },false)
+
+        Li[i].addEventListener("dragend", function( event ) {
+            event.target.style.opacity = "";
+        }, false);
+
+
+        Li[i].addEventListener("dragover", function( event ) {
+            event.preventDefault();
+        }, false);
+
+        Li[i].addEventListener("dragenter", function(event) {
+            console.log('dragenter');
+            if ( event.target.parentNode.classList == "dropzone" ) {
+                event.target.style.background = "green";
+            }
+        }, false);
+
+        Li[i].addEventListener("dragleave", function(event) {
+            console.log('dragleave');
+            if ( event.target.parentNode.classList == "dropzone" ) {
+                event.target.style.background = "";
+      }
+
+        }, false);
+
+        Li[i].addEventListener("drop", function(event) {
+            event.preventDefault();
+            console.log('drop');
+
+            if(event.target.parentNode.classList == 'dropzone'){
+                event.target.style.background = "";
+                event.target.after(dragged);
+            }
+
+        }, false);
+    }
+
+    </script>
+    
+</body>
+
+</html>
