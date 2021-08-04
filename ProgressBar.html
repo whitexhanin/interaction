@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProgressBar</title>
+</head>
+<style>
+    body {
+        width:100vw;        
+    }
+    .border {
+        position:relative;
+        width:80%;
+        height:50px;
+        border-radius: 40px;
+        background:#eaeaea;
+        border:1px solid #000;
+        overflow:hidden;
+    }
+    .border .txt {
+        position:absolute;
+        left:50%;
+        top:50%;
+        transform:translate(-50%, -50%);        
+        display:block;
+        color:#fff;
+    }
+    .timerbg {
+        position:absolute;
+        top:0;
+        left:0;
+        background:red;
+        width:0.027%;
+        height:100%;
+    }
+
+</style>
+<body>
+    <div class="border">
+        <span class="txt">전력 peak 경보 14:00 ~ 15:00</span>
+        <span class="timerbg"></span>
+    </div>
+    <div class="time">
+        <span>남은시간</span>
+        <span class="time_txt">60:00</span>
+    </div>
+    <script>     
+        function timer(){
+            let seconds = 60000;//60초
+            let min = 59;//59분            
+            let per = 0.028;//width 퍼센트
+            let timerBg = document.querySelector('.timerbg');
+            let timeTxt = document.querySelector('.time_txt');
+            let timer;
+
+            function starttimer(){
+
+                seconds-=1000;
+                per+=0.028;     
+ 
+                _seconds = seconds / 1000;
+                _min = min;
+
+                if(_seconds <= 9){
+                    _seconds = '0'+_seconds;
+                }
+                if(min <= 9){
+                    _min = '0'+ min;
+                }
+                if(_seconds == 0){
+                    min--;
+                    seconds = 60000;
+                }                  
+                if(_seconds <= 10 && _min == 0 ){
+                    //카운트 10부터.
+                    console.log('count' + _seconds);
+                }             
+                if(_seconds == 0 && _min == 0 ){
+                    clearInterval(timer);
+                    console.log('끝');
+                }
+
+                timeTxt.innerHTML = _min + ':' + _seconds;
+                timerBg.style.width = per + '%';  
+            }
+
+            timer = setInterval(starttimer , 1000);
+        }
+
+        timer();
+        
+
+    </script>
+</body>
+</html>

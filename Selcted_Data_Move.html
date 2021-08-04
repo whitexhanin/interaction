@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selected_Data_Move</title>
+</head>
+<style>
+    body {
+        position:relative;
+        height:100vh;
+    }    
+    .dim {
+        position:fixed;
+        top:0;
+        width:100%;
+        height:100%;
+        background:rgba(0,0,0,.5);
+    }
+    .popup_wrap {
+        position:absolute;
+        left:50%;
+        top:50%;
+        width:800px;
+        height:800px;
+        background:#ffffff;
+        transform:translate(-50% ,-50%);
+        -webkit-transform:translate(-50%,-50%);
+    }
+    .tit_wrap {
+        display:flex;
+        justify-content: space-between;
+        padding:0 20px;
+        border:1px solid red;
+    }
+    .btn_close {
+        width:50px;
+        height:50px;
+        line-height: 50px;
+        background:darkblue;
+        color:#ffffff;
+        font-size:50px;
+        text-align:center;
+    }
+    .list_wrap {
+        display:flex;        
+    }
+    .btn_move {
+        width:10%;
+        background:darkcyan;
+        cursor: pointer;
+    }
+    .list_wrap > .list {
+        width:40%;
+        border:1px solid blue;
+    }
+    .ul_wrap {
+        border:1px solid red;
+    }
+    .h_li {
+        font-weight:bold;
+        background:#eaeaea;
+    }
+    .h_li > * {
+        border-right:1px solid #ffffff;
+    }
+    .ul_wrap > li {
+        border:1px solid pink;
+    }
+    .ul_wrap > li > * {
+        border-right:1px solid #eaeaea;
+    }
+    .catagory_wrap {
+        display:flex;
+    }
+    .menu {
+        position:relative;
+        display:flex;
+        border:1px solid #000;
+    }
+    .pick {
+        display:block;
+        width:100px;
+        height:50px;
+        background:darkkhaki;
+
+    }
+    .menu > ul {
+        list-style: none;        
+        overflow:hidden;
+        height:0;
+        position:absolute;
+        top:50px;
+        left:0;
+        margin:0;
+        width:100%;
+        transition:height 0.3s ease-in-out;        
+    }
+    
+    .menu > ul > li {
+        height:20px;          
+        background:pink;          
+    }
+   
+</style>
+<body>
+    <div class="dim"></div>
+    <div class="popup_wrap">
+        <div class="tit_wrap">
+            <span class="tit_h1txt">설정</span>            
+            <span class="btn_close">x</span>
+        </div>
+        <div class="list_wrap">
+            <div class="list">
+                <span class="tit_h2txt">My 대시보드</span>
+                <ul class="ul_wrap mylist">
+                    <li class="h_li">
+                        <input type="checkbox" name="" id="" class="h_ckbox">
+                        <span class="h_txt">센서분류</span>
+                        <span class="h_txt">장비명</span>
+                    </li>                  
+                </ul>
+                <input type="button" value="삭제" class="btn_delete">
+            </div>
+            <div class="btn_move">왼쪽으로 이동</div>
+            <div class="list">
+                <div class="catagory_wrap">
+                    <div class="menu">
+                        <span class="pick">안전2</span>
+                        <ul class="menu_ul">
+                            <li>안전1</li>
+                            <li>안전2</li>
+                            <li>안전3</li>
+                            <li>안전4</li>
+                        </ul>
+                    </div>
+                    <div class="menu">
+                        <span class="pick">센서분류2</span>
+                        <ul class="menu_ul">
+                            <li>센서분류1</li>
+                            <li>센서분류2</li>
+                            <li>센서분류3</li>
+                            <li>센서분류4</li>
+                        </ul>
+                    </div>
+                    <input type="search" name="" id="">
+                    <input type="button" value="검색">
+                </div>
+                <ul class="ul_wrap totallist">
+                    <li class="h_li">
+                        <input type="checkbox" name="" id="" class="h_ckbox">
+                        <span class="h_txt">센서분류</span>
+                        <span class="h_txt">장비명</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="" id="" class="ck">
+                        <span class="h_txt">가스감지기01</span>
+                        <span class="h_txt">가스감지센서01</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="" id="" class="ck">
+                        <span class="h_txt">가스감지기02</span>
+                        <span class="h_txt">가스감지센서02</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="" id="" class="ck">
+                        <span class="h_txt">가스감지기03</span>
+                        <span class="h_txt">가스감지센서03</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" name="" id="" class="ck">
+                        <span class="h_txt">가스감지기04</span>
+                        <span class="h_txt">가스감지센서04</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>    
+
+    <script>
+
+        let data,movedata ,name ,item,myitem;
+        let btnMove = document.querySelector('.btn_move');
+        let totalList = document.querySelector('.totallist');
+        let totalLi = totalList.querySelectorAll('li');
+        let myList = document.querySelector('.mylist');      
+        let totalCk = totalList.querySelectorAll('.ck');
+        let myListCk;
+        let btnDelete = document.querySelector('.btn_delete');   
+        let totalAllCk = totalList.querySelector('.h_ckbox');     
+        let myListAllCk = myList.querySelector('.h_ckbox');
+
+        for(let i = 0; i < totalLi.length; i++){
+            totalLi[i].classList.add('n'+ i);
+        }
+
+
+        //CHECKBOX ALL CHECK
+        let boxname , ckbox;
+        let h_ckbox = document.querySelectorAll('.h_ckbox');
+
+        function ckboxAll() {
+            boxname = this.parentNode.parentNode;     
+            ckbox = boxname.querySelectorAll('.ck');
+
+            for(let item of ckbox){
+
+                if (this.checked == true && item.disabled == false){
+                    item.checked = true;                    
+                
+                } else if (this.checked == false) {                    
+                    item.checked = false;
+                }
+                
+            }
+        }
+
+        for(let i = 0; i <  h_ckbox.length; i++){         
+            h_ckbox[i].addEventListener('click',ckboxAll);
+        }
+
+        //TOTAL DASHBOARD
+        function dataMove() {
+
+            for( item of totalCk){                
+
+                if(item.checked == true && item.disabled != true){
+
+                    data = item.parentNode;
+                    name = data.className;
+                    
+                    data.style.background = 'gray';                      
+                    movedata = data.innerHTML;                                    
+                    myList.insertAdjacentHTML('beforeend','<li'+' class ='+ name +'>' + movedata +'</li>');     
+                    data.firstElementChild.disabled = true;                    
+                    data.firstElementChild.checked = false;
+                    totalAllCk.checked = false;
+                }   
+            }    
+        }    
+        btnMove.addEventListener('click',dataMove);
+
+        //MY DASHBOARD
+        function dataDelete() {   
+            myListCk = myList.querySelectorAll('.ck');
+
+            for( myitem of myListCk){                
+
+                if(myitem.checked == true){
+
+                    data = myitem.parentNode;
+                    name = data.className;                   
+
+                    data.remove();
+
+                    let todata = totalList.querySelector('.'+name);
+                    todata.firstElementChild.disabled = false;
+                    todata.firstElementChild.checked = false;
+                    myListAllCk.checked = false;
+                    todata.style.background = 'white'; 
+                }       
+            } 
+        }
+        
+        btnDelete.addEventListener('click',dataDelete);
+
+        //MENU    
+        
+        let menu = document.querySelectorAll('.menu');
+        let pick = document.querySelectorAll('.pick');
+        let ul = document.querySelectorAll('.menu_ul > li');
+        let body = document.querySelector('body');
+        let choice, changeId;
+
+        body.addEventListener('click' , function(e) {
+            
+            for(let i = 0; i < pick.length; i++){
+
+            let eTarget = e.target;
+            let ePick = eTarget.classList.contains('pick');
+
+
+                if(!ePick){
+
+                    for(let i = 0; i < pick.length; i++){
+                        pick[i].classList.remove('on');
+                        pick[i].nextElementSibling.style.height = '0px';
+                    }
+                }
+            }
+        });
+        
+
+        function menuToggle(e) {   
+
+            T = this.classList.contains('on');         
+
+           if(!T) {
+                    resetList();
+                    this.classList.add('on');
+                    ul = this.nextElementSibling;
+                    ul.style.height = '200px';
+
+            } else if(T) {
+                    this.classList.remove('on');
+                    ul = this.nextElementSibling;
+                    ul.style.height = '0px';
+            }
+        }
+
+        function menuList(){         
+            choice = this.innerHTML;
+            changeId = this.parentElement.previousElementSibling
+            changeId.innerHTML = choice;
+
+            changeId.classList.remove('on');
+            ul = changeId.nextElementSibling;
+            ul.style.height = '0px';
+
+        }
+        function resetList(){
+            for(let i = 0; i < pick.length; i++){
+                pick[i].classList.remove('on');
+                pick[i].nextElementSibling.style.height = '0px';
+            }
+        }
+        
+        
+        for(catagory of pick) {
+            catagory.addEventListener('click', menuToggle);
+        }     
+        for(menuUl of ul) {
+            menuUl.addEventListener('click', menuList);
+        }     
+
+    </script>
+</body>
+</html>
